@@ -1,9 +1,0 @@
-{
-  "name": "jsa-eval",
-  "version": "0.1.0",
-  "private": true,
-  "workspaces": [
-    "jsa-eval-core",
-    "jsa-eval-dev"
-  ]
-}
