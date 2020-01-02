@@ -6,4 +6,3 @@
   - jsa-eval-core
     - frontend
     - backend
-- jsa-eval-dev
