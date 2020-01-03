@@ -1,6 +1,6 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
-// import { mount } from 'enzyme';
+import { shallow } from 'enzyme';
 
 import App from './App';
 
@@ -10,4 +10,9 @@ describe('test App ', () => {
     const tree = appComponent.toJSON();
     expect(tree).toMatchSnapshot();
   });
+
+  it('should render correctly with no props', () => {
+    const component = shallow(<App />);
+    expect(component).toMatchSnapshot();
+  })
 });

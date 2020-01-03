@@ -179,3 +179,5 @@ exports[`test App  renders the App 1`] = `
   </div>
 </div>
 `;
+
+exports[`test App  should render correctly with no props 1`] = `ShallowWrapper {}`;
