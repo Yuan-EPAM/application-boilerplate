@@ -9,6 +9,7 @@
     "frontend": "yarn workspace frontend start",
     "backend": "yarn workspace backend start",
     "start": "concurrently --kill-others-on-fail \"yarn frontend\" \"yarn backend\" ",
+    "release": "standard-version",
     "lint": "eslint **/*.{js,jsx} --ext .js",
     "lint-fix": "eslint **/*.{js,jsx} --ext .js --fix"
   },
@@ -44,7 +45,8 @@
     "eslint-plugin-react": "^7.17.0",
     "eslint-plugin-react-hooks": "^2.3.0",
     "husky": "^4.0.0-beta.5",
-    "prettier": "^1.19.1"
+    "prettier": "^1.19.1",
+    "standard-version": "^7.0.1"
   },
   "dependencies": {
     "@babel/polyfill": "^7.7.0"
@@ -52,7 +54,7 @@
   "husky": {
     "hooks": {
       "pre-commit": "echo $HUSKY_GIT_PARAMS",
-      "commit-msg" : "commitlint -E HUSKY_GIT_PARAMS"
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
     }
   }
 }
