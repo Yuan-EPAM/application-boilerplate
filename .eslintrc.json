@@ -5,7 +5,7 @@
     "node": true,
     "jest": true
   },
-  "extends": ["airbnb", "prettier", "plugin:react/recommended"],
+  "extends": ["airbnb", "prettier"],
   "plugins": ["react", "prettier"],
   "rules": {
     "react/jsx-filename-extension": [
