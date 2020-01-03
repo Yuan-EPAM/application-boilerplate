@@ -3,9 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "workspaces": [
-    "jsa-eval-core"
+    "jsa-eval-core/*"
   ],
   "scripts": {
+    "frontend": "yarn workspace frontend start",
+    "backend": "yarn workspace backend start",
+    "start": "concurrently --kill-others-on-fail \"yarn frontend\" \"yarn backend\" ",
     "lint": "eslint **/*.{js,jsx} --ext .js",
     "lint-fix": "eslint **/*.{js,jsx} --ext .js --fix"
   },
@@ -38,9 +41,16 @@
     "eslint-plugin-prettier": "^3.1.2",
     "eslint-plugin-react": "^7.17.0",
     "eslint-plugin-react-hooks": "^2.3.0",
+    "husky": "^3.1.0",
     "prettier": "^1.19.1"
   },
   "dependencies": {
     "@babel/polyfill": "^7.7.0"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "yarn test",
+      "pre-push": "yarn test"
+    }
   }
 }
