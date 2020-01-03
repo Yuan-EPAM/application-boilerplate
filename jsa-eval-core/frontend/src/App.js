@@ -1,3 +1,4 @@
+import { hot } from 'react-hot-loader/root';
 import React from 'react';
 import SignUp from './components/UI/SignUp';
 
@@ -9,4 +10,4 @@ function App() {
   );
 }
 
-export default App;
+export default hot(App);

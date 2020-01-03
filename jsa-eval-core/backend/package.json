@@ -5,7 +5,7 @@
   "description": "backend server",
   "main": "start.js",
   "scripts": {
-    "start": "node start.js",
+    "start": "nodemon start.js",
     "test": "jest",
     "lint": "eslint **/*.{js,jsx} --ext .js",
     "lint-fix": "eslint **/*.{js,jsx} --ext .js --fix"
@@ -19,6 +19,7 @@
   },
   "devDependencies": {
     "jest": "^24.9.0",
+    "nodemon": "^2.0.2",
     "supertest": "^4.0.2"
   },
   "jest": {
