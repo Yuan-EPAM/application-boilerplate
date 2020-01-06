@@ -1,6 +1,6 @@
 import { hot } from 'react-hot-loader/root';
 import React from 'react';
-import SignUp from './components/UI/SignUp';
+import SignUp from './components/SignUp';
 
 function App() {
   return (
