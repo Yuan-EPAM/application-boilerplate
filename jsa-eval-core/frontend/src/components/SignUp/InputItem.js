@@ -4,7 +4,7 @@ import { AccountCircleOutlined, MailOutline, VisibilityOff } from '@material-ui/
 
 import useStyles from './styles';
 
-const InputItem = ({ itemId, itemTYpe, placeholder, value, handlerOnChange }) => {
+const InputItem = ({ itemId, itemType, placeholder, inputValue, handlerOnChange }) => {
   const classes = useStyles();
 
   const addIcon = (position = 'start', iconComponent) => {
@@ -19,13 +19,15 @@ const InputItem = ({ itemId, itemTYpe, placeholder, value, handlerOnChange }) =>
 
   const getIcon = itemId => iconsMap[itemId];
 
+  console.log('props:', itemId, inputValue)
+
   return (
     <Input
-      type={itemTYpe}
+      type={itemType}
       className={classes.inputItem}
       startAdornment={getIcon(itemId)}
       placeholder={placeholder}
-      value={value}
+      value={inputValue.value}
       onChange={handlerOnChange}
     />
   );

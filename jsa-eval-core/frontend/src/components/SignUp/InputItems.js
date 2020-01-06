@@ -13,7 +13,7 @@ const InputItems = ({ items, stateMap }) =>
           itemId={item.id}
           itemType={item.type}
           placeholder={item.placeholder}
-          value={itemVal}
+          inputValue={itemVal}
           handlerOnChange={handlerSetItemVal}
         />
       </Grid>
