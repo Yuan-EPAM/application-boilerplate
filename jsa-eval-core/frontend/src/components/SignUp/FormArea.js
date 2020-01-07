@@ -56,13 +56,15 @@ const FormArea = () => {
 
   const [formItems, setFormItems] = useState(formData);
 
-  const updateItemStateObj = (preState, itemId, newValue, checkValidity) => {
+  const updateItemStateObj = (preState, itemId, newValue, checkItemValidity) => {
+    console.log('>>> updateItemStateObj', formItems.valid);
+
     return {
       ...preState.items,
       [itemId]: {
         ...preState.items[itemId],
         value: newValue,
-        valid: checkValidity(newValue, preState.items[itemId].validation),
+        valid: checkItemValidity(newValue, preState.items[itemId].validation),
         touched: true
       }
     };

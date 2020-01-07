@@ -46,11 +46,15 @@ const checkItemValidity = (value, validation) => {
 
 const checkFormValidity = items => {
   let isFormValid = false;
+
+  console.log('checkForValidity', items);
+
   const inValidItems = Object.values(items)
-    .filter(item => !(item.validation.required && item.touched) && !item.valid)
+    .filter(item => !(item.validation.required && item.touched && item.valid))
     .map(({ id, validation, valid, touched }) => ({ id, validation, valid, touched }));
 
   isFormValid = inValidItems.length < 1;
+
   return { isFormValid, inValidItems };
 };
 
