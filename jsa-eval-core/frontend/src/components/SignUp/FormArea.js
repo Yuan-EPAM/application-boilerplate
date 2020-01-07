@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button } from '@material-ui/core';
 
 import InputItems from './InputItems';
@@ -74,32 +74,21 @@ const FormArea = () => {
     const rules = {
       pattern: /^[a-zA-Z0-9!@#$%\^&*()-_=.+]{6,18}$/
     };
-    return (
-      isValid &&
-      rules.pattern.test(value)
-    );
+    return isValid && rules.pattern.test(value);
   };
 
   const checkInputValidity = (value, validation) => {
+    // default true, once triggered to false, then return false
     let isValid = true;
     if (validation.required) {
-      // default true, once triggered to false, then return false
+      const checkByType = {
+        name: (value, isValid) => checkName(value, isValid),
+        email: (value, isValid) => checkEmail(value, isValid),
+        pwd: (value, isValid) => checkPwd(value, isValid)
+      };
       // check input is an empty string
-      isValid = typeof value && value.trim() !== '' && isValid;
-
-      switch (validation.type) {
-        case 'name':
-          isValid = checkName(value, isValid);
-          break;
-        case 'email':
-          isValid = checkEmail(value, isValid);
-          break;
-        case 'pwd':
-          isValid = checkPwd(value, isValid);
-          break;
-        default:
-          isValid = true;
-      }
+      isValid = typeof value === 'string' && value.trim() !== '' && isValid;
+      isValid = checkByType[validation.type](value, isValid);
     } else {
       return true;
     }
@@ -138,11 +127,22 @@ const FormArea = () => {
     pwd: [inputPwd, handlerSetInputPwd]
   };
 
+  const handlerOnSubmit = event => {
+    event.preventDefault();
+    alert('Signed up!');
+  };
+
   return (
-    <form className={classes.formArea}>
+    <form className={classes.formArea} onSubmit={handlerOnSubmit} >
       <InputItems items={items} stateUtilityMap={stateUtilityMap} />
 
-      <Button className={classes.button} variant="contained" color="primary" onClick={handlerClick}>
+      <Button
+        type="submit"
+        className={classes.button}
+        variant="contained"
+        color="primary"
+        onClick={handlerClick}
+      >
         SIGN UP
       </Button>
     </form>
