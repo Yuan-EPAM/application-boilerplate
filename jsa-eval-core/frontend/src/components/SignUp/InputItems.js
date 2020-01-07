@@ -3,9 +3,9 @@ import { Grid } from '@material-ui/core';
 
 import InputItem from './InputItem';
 
-const InputItems = ({ items, stateMap }) =>
+const InputItems = ({ items, stateUtilityMap }) =>
   Object.values(items).map(item => {
-    const [itemVal, handlerSetItemVal] = stateMap[item.id];
+    const [itemVal, handlerSetItemVal] = stateUtilityMap[item.id];
 
     return (
       <Grid item xs={12} key={item.id}>

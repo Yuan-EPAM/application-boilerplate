@@ -12,8 +12,8 @@ const FormArea = () => {
     name: {
       id: 'name',
       type: 'text',
-      value: '',
       placeholder: 'User Name',
+      value: '',
       validation: {
         type: 'name',
         required: true
@@ -23,8 +23,8 @@ const FormArea = () => {
     email: {
       id: 'email',
       type: 'text',
-      value: '',
       placeholder: 'Email Address',
+      value: '',
       validation: {
         type: 'email',
         required: true
@@ -34,35 +34,31 @@ const FormArea = () => {
     pwd: {
       id: 'pwd',
       type: 'password',
-      value: '',
       placeholder: 'Password',
+      value: '',
       validation: {
-        type: 'password',
+        type: 'pwd',
         required: true
       },
       valid: false
     }
   };
 
-  const [inputName, setInputName] = useState({
-    value: items.name.value,
-    validation: items.name.validation,
-    valid: items.name.valid
-  });
-  const [inputEmail, setInputEmail] = useState({
-    value: items.email.value,
-    validation: items.email.validation,
-    valid: items.email.valid
-  });
-  const [inputPwd, setInputPwd] = useState(items.pwd.value);
+  const getStateObj = (items, itemType) => {
+    const { value, validation, valid } = items[itemType];
+    return { value, validation, valid };
+  };
+
+  const [inputName, setInputName] = useState(getStateObj(items, 'name'));
+  const [inputEmail, setInputEmail] = useState(getStateObj(items, 'email'));
+  const [inputPwd, setInputPwd] = useState(getStateObj(items, 'pwd'));
 
   const checkName = (value, valid) => {
     let isValid = valid;
     const rules = {
-      minLength: 4,
-      maxLength: 32
+      pattern: /^([a-zA-Z0-9-_]){4,32}$/
     };
-    return isValid && value.length >= rules.minLength && value.length <= rules.maxLength;
+    return isValid && rules.pattern.test(value);
   };
 
   const checkEmail = (value, valid) => {
@@ -70,9 +66,18 @@ const FormArea = () => {
     const rules = {
       pattern: /[a-z0-9!#$%&'*+/=?^_‘{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_‘{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/
     };
-    console.log(rules.pattern.test(value));
     return isValid && rules.pattern.test(value);
-    // return true;
+  };
+
+  const checkPwd = (value, valid) => {
+    let isValid = valid;
+    const rules = {
+      pattern: /^[a-zA-Z0-9!@#$%\^&*()-_=.+]{6,18}$/
+    };
+    return (
+      isValid &&
+      rules.pattern.test(value)
+    );
   };
 
   const checkInputValidity = (value, validation) => {
@@ -89,6 +94,9 @@ const FormArea = () => {
         case 'email':
           isValid = checkEmail(value, isValid);
           break;
+        case 'pwd':
+          isValid = checkPwd(value, isValid);
+          break;
         default:
           isValid = true;
       }
@@ -99,33 +107,32 @@ const FormArea = () => {
     return isValid;
   };
 
+  const updateStateObj = (preState, newValue, checkValidity) => ({
+    ...preState,
+    value: newValue,
+    valid: checkValidity(newValue, preState.validation)
+  });
 
   const handlerSetInputName = event => {
     let { value } = event.target;
-
-    setInputName(preState => ({
-      ...preState,
-      value: value,
-      valid: checkInputValidity(value, preState.validation)
-    }));
+    setInputName(preState => updateStateObj(preState, value, checkInputValidity));
   };
 
   const handlerSetInputEmail = event => {
     let { value } = event.target;
-
-    setInputEmail(preState => ({
-      ...preState,
-      value: value,
-      valid: checkInputValidity(value, preState.validation)
-    }));
+    setInputEmail(preState => updateStateObj(preState, value, checkInputValidity));
   };
-  const handlerSetInputPwd = event => setInputPwd(event.target.value);
+
+  const handlerSetInputPwd = event => {
+    let { value } = event.target;
+    setInputPwd(preState => updateStateObj(preState, value, checkInputValidity));
+  };
 
   const handlerClick = () => {
     return console.log('sign up button clicked');
   };
 
-  const stateMap = {
+  const stateUtilityMap = {
     name: [inputName, handlerSetInputName],
     email: [inputEmail, handlerSetInputEmail],
     pwd: [inputPwd, handlerSetInputPwd]
@@ -133,7 +140,7 @@ const FormArea = () => {
 
   return (
     <form className={classes.formArea}>
-      <InputItems items={items} stateMap={stateMap} />
+      <InputItems items={items} stateUtilityMap={stateUtilityMap} />
 
       <Button className={classes.button} variant="contained" color="primary" onClick={handlerClick}>
         SIGN UP
