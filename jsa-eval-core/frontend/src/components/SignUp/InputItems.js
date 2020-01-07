@@ -3,9 +3,10 @@ import { Grid } from '@material-ui/core';
 
 import InputItem from './InputItem';
 
-const InputItems = ({ items, stateUtilityMap }) =>
-  Object.values(items).map(item => {
-    const [itemVal, handlerSetItemVal] = stateUtilityMap[item.id];
+const InputItems = ({ inputForm, handlerSetInputForm }) =>
+  Object.values(inputForm).map(item => {
+
+    console.log('item:', item.id, item.value, item.valid);
 
     return (
       <Grid item xs={12} key={item.id}>
@@ -13,8 +14,8 @@ const InputItems = ({ items, stateUtilityMap }) =>
           itemId={item.id}
           itemType={item.type}
           placeholder={item.placeholder}
-          inputValue={itemVal}
-          handlerOnChange={handlerSetItemVal}
+          inputValue={item.value}
+          handlerOnChange={handlerSetInputForm}
         />
       </Grid>
     );

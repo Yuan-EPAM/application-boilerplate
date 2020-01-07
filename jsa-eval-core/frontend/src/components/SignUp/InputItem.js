@@ -19,7 +19,7 @@ const InputItem = ({ itemId, itemType, placeholder, inputValue, handlerOnChange 
 
   const getIcon = itemId => iconsMap[itemId];
 
-  console.log('props:', itemId, inputValue)
+  // console.log('props:', itemId, inputValue)
 
   return (
     <Input
@@ -28,7 +28,7 @@ const InputItem = ({ itemId, itemType, placeholder, inputValue, handlerOnChange 
       startAdornment={getIcon(itemId)}
       placeholder={placeholder}
       value={inputValue.value}
-      onChange={handlerOnChange}
+      onChange={(event) => handlerOnChange(event, itemId)}
     />
   );
 };

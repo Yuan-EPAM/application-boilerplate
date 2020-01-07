@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Button } from '@material-ui/core';
 
 import InputItems from './InputItems';
@@ -18,7 +18,8 @@ const FormArea = () => {
         type: 'name',
         required: true
       },
-      valid: false
+      valid: false,
+      touched: false
     },
     email: {
       id: 'email',
@@ -29,7 +30,8 @@ const FormArea = () => {
         type: 'email',
         required: true
       },
-      valid: false
+      valid: false,
+      touched: false
     },
     pwd: {
       id: 'pwd',
@@ -40,91 +42,79 @@ const FormArea = () => {
         type: 'pwd',
         required: true
       },
-      valid: false
+      valid: false,
+      touched: false
     }
   };
 
-  const getStateObj = (items, itemType) => {
-    const { value, validation, valid } = items[itemType];
-    return { value, validation, valid };
-  };
-
-  const [inputName, setInputName] = useState(getStateObj(items, 'name'));
-  const [inputEmail, setInputEmail] = useState(getStateObj(items, 'email'));
-  const [inputPwd, setInputPwd] = useState(getStateObj(items, 'pwd'));
-
-  // const checkName = (value, valid) => {
-  //   let isValid = valid;
-  //   const rules = {
-  //     pattern: /^([a-zA-Z0-9-_]){4,32}$/
-  //   };
-  //   return isValid && rules.pattern.test(value);
+  // const getStateObj = (items, itemType) => {
+  //   const { value, validation, valid, touched } = items[itemType];
+  //   return { value, validation, valid, touched };
   // };
 
-  // const checkEmail = (value, valid) => {
-  //   let isValid = valid;
-  //   const rules = {
-  //     pattern: /[a-z0-9!#$%&'*+/=?^_‘{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_‘{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/
-  //   };
-  //   return isValid && rules.pattern.test(value);
+  // const getFormStateObj = items => {
+  //   const requiredItems = Object.values(items)
+  //     .filter(item => item.validation.required)
+  //     .map(item => {
+  //       const { id, value, validation, touched } = item;
+  //       return { id: { id, value, validation, touched } };
+  //     });
+  //   return requiredItems;
   // };
 
-  // const checkPwd = (value, valid) => {
-  //   let isValid = valid;
-  //   const rules = {
-  //     pattern: /^[a-zA-Z0-9!@#$%\^&*()-_=.+]{6,18}$/
-  //   };
-  //   return isValid && rules.pattern.test(value);
+  // const [inputName, setInputName] = useState(getStateObj(items, 'name'));
+  // const [inputEmail, setInputEmail] = useState(getStateObj(items, 'email'));
+  // const [inputPwd, setInputPwd] = useState(getStateObj(items, 'pwd'));
+  const [inputForm, setInputForm] = useState(items);
+
+  // const updateStateObj = (preState, newValue, checkValidity) => ({
+  //   ...preState,
+  //   value: newValue,
+  //   valid: checkValidity(newValue, preState.validation),
+  //   touched: true
+  // });
+
+  // const handlerSetInputName = event => {
+  //   let { value } = event.target;
+  //   setInputName(preState => updateStateObj(preState, value, checkInputValidity));
   // };
 
-  // const checkInputValidity = (value, validation) => {
-  //   // default true, once triggered to false, then return false
-  //   let isValid = true;
-  //   if (validation.required) {
-  //     const checkByType = {
-  //       name: (value, isValid) => checkName(value, isValid),
-  //       email: (value, isValid) => checkEmail(value, isValid),
-  //       pwd: (value, isValid) => checkPwd(value, isValid)
-  //     };
-  //     // check input is an empty string
-  //     isValid = typeof value === 'string' && value.trim() !== '' && isValid;
-  //     isValid = checkByType[validation.type](value, isValid);
-  //   } else {
-  //     return true;
-  //   }
-
-  //   return isValid;
+  // const handlerSetInputEmail = event => {
+  //   let { value } = event.target;
+  //   setInputEmail(preState => updateStateObj(preState, value, checkInputValidity));
   // };
 
-  const updateStateObj = (preState, newValue, checkValidity) => ({
-    ...preState,
-    value: newValue,
-    valid: checkValidity(newValue, preState.validation)
-  });
-
-  const handlerSetInputName = event => {
-    let { value } = event.target;
-    setInputName(preState => updateStateObj(preState, value, checkInputValidity));
-  };
-
-  const handlerSetInputEmail = event => {
-    let { value } = event.target;
-    setInputEmail(preState => updateStateObj(preState, value, checkInputValidity));
-  };
-
-  const handlerSetInputPwd = event => {
-    let { value } = event.target;
-    setInputPwd(preState => updateStateObj(preState, value, checkInputValidity));
-  };
+  // const handlerSetInputPwd = event => {
+  //   let { value } = event.target;
+  //   setInputPwd(preState => updateStateObj(preState, value, checkInputValidity));
+  // };
 
   const handlerClick = () => {
     return console.log('sign up button clicked');
   };
 
-  const stateUtilityMap = {
-    name: [inputName, handlerSetInputName],
-    email: [inputEmail, handlerSetInputEmail],
-    pwd: [inputPwd, handlerSetInputPwd]
+  // const stateUtilityMap = {
+  //   name: [inputName, handlerSetInputName],
+  //   email: [inputEmail, handlerSetInputEmail],
+  //   pwd: [inputPwd, handlerSetInputPwd]
+  // };
+
+  const updateFormStateObj = (preState, itemId, newValue, checkValidity) => {
+    return {
+      ...preState,
+      [itemId]: {
+        ...preState[itemId],
+        value: newValue,
+        valid: checkValidity(newValue, preState[itemId].validation),
+        touched: true
+      }
+    };
+  };
+
+  const handlerSetInputForm = (event, itemId) => {
+    // Return true only when bothrequired item are touched, valid and form is valid
+    let { value } = event.target;
+    setInputForm(preState => updateFormStateObj(preState, itemId, value, checkInputValidity));
   };
 
   const handlerOnSubmit = event => {
@@ -133,8 +123,9 @@ const FormArea = () => {
   };
 
   return (
-    <form className={classes.formArea} onSubmit={handlerOnSubmit} >
-      <InputItems items={items} stateUtilityMap={stateUtilityMap} />
+    <form className={classes.formArea} onSubmit={handlerOnSubmit}>
+      {/* <InputItems items={items} stateUtilityMap={stateUtilityMap} /> */}
+      <InputItems inputForm={inputForm} handlerSetInputForm={handlerSetInputForm} />
 
       <Button
         type="submit"
