@@ -19,6 +19,11 @@ import { makeStyles } from '@material-ui/styles';
     border: '1px solid red',
     margin: 10
   },
+  inputItemInvalid: {
+    backgroundColor: 'red',
+    margin: 10,
+    opacity: "50%"
+  },
   button: {
     margin: 10,
     width: '40%'

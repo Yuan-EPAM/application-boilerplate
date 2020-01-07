@@ -1,11 +1,20 @@
-import React from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Input, InputAdornment } from '@material-ui/core';
 import { AccountCircleOutlined, MailOutline, VisibilityOff } from '@material-ui/icons';
 
 import useStyles from './styles';
 
-const InputItem = ({ itemId, itemType, placeholder, inputValue, handlerOnChange }) => {
+const InputItem = ({
+  itemId,
+  itemType,
+  placeholder,
+  inputValue,
+  handlerSetFormItems,
+  valid,
+  checked
+}) => {
   const classes = useStyles();
+  const [styleClasses, setStyleClasses] = useState(classes.inputItem);
 
   const addIcon = (position = 'start', iconComponent) => {
     return <InputAdornment position={position}>{iconComponent}</InputAdornment>;
@@ -19,16 +28,22 @@ const InputItem = ({ itemId, itemType, placeholder, inputValue, handlerOnChange 
 
   const getIcon = itemId => iconsMap[itemId];
 
-  // console.log('props:', itemId, inputValue)
+  const warnInvalid = useCallback(() => {
+    checked && !valid ? setStyleClasses(classes.inputItemInvalid) : setStyleClasses(classes.inputItem)
+  }, [checked, valid, classes.inputItem, classes.inputItemInvalid])
+
+  useEffect(() => {
+    warnInvalid()
+  }, [warnInvalid])
 
   return (
     <Input
       type={itemType}
-      className={classes.inputItem}
+      className={styleClasses}
       startAdornment={getIcon(itemId)}
       placeholder={placeholder}
-      value={inputValue.value}
-      onChange={(event) => handlerOnChange(event, itemId)}
+      value={inputValue}
+      onChange={event => handlerSetFormItems(event, itemId)}
     />
   );
 };

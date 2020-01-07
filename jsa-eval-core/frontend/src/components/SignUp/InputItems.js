@@ -3,10 +3,10 @@ import { Grid } from '@material-ui/core';
 
 import InputItem from './InputItem';
 
-const InputItems = ({ inputForm, handlerSetInputForm }) =>
-  Object.values(inputForm).map(item => {
+const InputItems = ({ formItems, handlerSetFormItems }) =>
+  Object.values(formItems.items).map(item => {
 
-    console.log('item:', item.id, item.value, item.valid);
+    console.log('item:', item.id, item.valid, item.value);
 
     return (
       <Grid item xs={12} key={item.id}>
@@ -15,7 +15,9 @@ const InputItems = ({ inputForm, handlerSetInputForm }) =>
           itemType={item.type}
           placeholder={item.placeholder}
           inputValue={item.value}
-          handlerOnChange={handlerSetInputForm}
+          handlerSetFormItems={handlerSetFormItems}
+          valid={item.valid}
+          checked={formItems.valid.checked}
         />
       </Grid>
     );
