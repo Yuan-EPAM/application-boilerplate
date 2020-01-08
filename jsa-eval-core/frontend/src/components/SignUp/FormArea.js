@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Button } from '@material-ui/core';
+import { useHistory } from 'react-router-dom';
 
 import InputItems from './InputItems';
 import useStyles from './styles';
@@ -7,6 +8,7 @@ import { checkItemValidity, checkFormValidity } from './utility';
 
 const FormArea = () => {
   const classes = useStyles();
+  const history = useHistory();
 
   const formData = {
     items: {
@@ -102,6 +104,7 @@ const FormArea = () => {
     event.preventDefault();
     if (formItems.valid.isFormValid) {
       alert('Signed up!');
+      history.push('/dashboard');
     } else {
       console.log('form valid', formItems.valid);
     }
