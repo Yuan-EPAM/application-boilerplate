@@ -20,9 +20,9 @@ import { makeStyles } from '@material-ui/styles';
     margin: 10
   },
   inputItemInvalid: {
-    backgroundColor: 'red',
+    backgroundColor: "#e17055",
     margin: 10,
-    opacity: "50%"
+    // opacity: "60%"
   },
   button: {
     margin: 10,
