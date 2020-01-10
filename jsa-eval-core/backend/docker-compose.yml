@@ -1,0 +1,30 @@
+version: '2.1'
+
+services:
+  test_service:
+    build:
+      context: "."
+      dockerfile: './test-service/Dockerfile'
+    container_name: test-service
+    depends_on:
+      - test-service-db
+    environment:
+      - DB_URI=mysql://root:password@test-service-db/docker_db_test?charset=UTF8
+    ports:
+      - "8080:3001"
+    volumes:
+      - ./test-service:/opt/test-service
+
+  # MySQL
+  test-service-db:
+    image: mysql:5.7
+    container_name: test-service-db
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: docker_db_test
+      MYSQL_PASSWORD: root
+    ports:
+      - 0.0.0.0:3007:3007
+    volumes:
+      - ./data:/var/lib/mysql
+    # env_file: ./server/.env
