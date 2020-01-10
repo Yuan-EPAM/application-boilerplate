@@ -1,0 +1,36 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "private": true,
+  "description": "backend service",
+  "main": "koaStart.js",
+  "scripts": {
+    "start": "nodemon koaStart.js",
+    "test": "jest",
+    "lint": "eslint **/*.{js,jsx} --ext .js",
+    "lint-fix": "eslint **/*.{js,jsx} --ext .js --fix"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "koa": "^2.11.0",
+    "koa-router": "^7.4.0",
+    "mysql2": "^2.1.0",
+    "sequelize": "^5.21.3"
+  },
+  "devDependencies": {
+    "babel-register": "^6.26.0",
+    "jest": "^24.9.0",
+    "nodemon": "^2.0.2",
+    "supertest": "^4.0.2"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "coveragePathIgnorePatterns": [
+      "/node_modules"
+    ]
+  }
+}
