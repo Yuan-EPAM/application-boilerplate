@@ -1,5 +1,6 @@
-jsa-eval-core/frontend/node_modules
-jsa-eval-core/backend/node_modules
-jsa-eval-core/frontend/src/serviceWorker.js
+**/node_modules
+# jsa-eval-core/frontend/src/serviceWorker.js
 
 ./lib
+
+**/models/index.js
