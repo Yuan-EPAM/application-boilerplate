@@ -100,11 +100,44 @@ const FormArea = () => {
     console.log('sign up button clicked');
   };
 
-  const handlerOnSubmit = event => {
+  const postData = async (url, data) => {
+    console.log(JSON.stringify(data));
+
+    const res = await fetch(url, {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    });
+    return res;
+  };
+
+  const getData = async (url) => {
+    const res = await fetch(url, {
+      method: 'GET'
+    })
+    console.log('>>> getData', res);
+  }
+
+  const handlerOnSubmit = async event => {
     event.preventDefault();
     if (formItems.valid.isFormValid) {
       alert('Signed up!');
-      history.push('/dashboard');
+      // history.push('/dashboard');
+
+
+      let url = 'http://localhost:8080/signup';
+      let signinURL = 'http://localhost:8080/signin';
+      const { name, email, pwd } = formItems.items;
+
+      const res = await postData(url, { userName: name.value, email: email.value, pwd: pwd.value });
+      const { token } = res.text();
+      localStorage.setItem('token', token);
+      localStorage.setItem('userEmail', email.value);
+      console.log('>>> sign up response: ', res);
+
     } else {
       console.log('form valid', formItems.valid);
     }
