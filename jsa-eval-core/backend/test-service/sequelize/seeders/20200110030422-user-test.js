@@ -1,23 +1,25 @@
-module.exports = {
-  up: (queryInterface, Sequelize) => {
-    /*
-      Add altering commands here.
-      Return a promise to correctly handle asynchronicity.
+const encodeService = require('../../src/services/encodeService');
 
-      Example:
-      return queryInterface.bulkInsert('People', [{
-        name: 'John Doe',
-        isBetaMember: false
-      }], {});
-    */
+module.exports = {
+  up: async queryInterface => {
     return queryInterface.bulkInsert(
-      'UserTests',
+      'UserTest',
       [
         {
           firstName: 'John',
           lastName: 'Doe',
           email: 'test@test.com',
           password: 'testpwd',
+          hashedPwd: await encodeService.hashPwd('testpwd'),
+          createdAt: new Date(),
+          updatedAt: new Date()
+        },
+        {
+          firstName: 'test1',
+          lastName: 'test1.1',
+          email: 'test1@test1.com',
+          password: '1234',
+          hashedPwd: await encodeService.hashPwd('1234'),
           createdAt: new Date(),
           updatedAt: new Date()
         }
@@ -26,14 +28,7 @@ module.exports = {
     );
   },
 
-  down: (queryInterface, Sequelize) => {
-    /*
-      Add reverting commands here.
-      Return a promise to correctly handle asynchronicity.
-
-      Example:
-      return queryInterface.bulkDelete('People', null, {});
-    */
-    return queryInterface.bulkDelete('UserTests', null, {});
+  down: queryInterface => {
+    return queryInterface.bulkDelete('UserTest', null, {});
   }
 };
