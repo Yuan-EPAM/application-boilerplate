@@ -6,8 +6,7 @@ module.exports = {
       'UserTest',
       [
         {
-          firstName: 'John',
-          lastName: 'Doe',
+          name: 'Test',
           email: 'test@test.com',
           password: 'testpwd',
           hashedPwd: await encodeService.hashPwd('testpwd'),
@@ -15,11 +14,10 @@ module.exports = {
           updatedAt: new Date()
         },
         {
-          firstName: 'test1',
-          lastName: 'test1.1',
-          email: 'test1@test1.com',
-          password: '1234',
-          hashedPwd: await encodeService.hashPwd('1234'),
+          name: 'test1',
+          email: 'test1@test.com',
+          password: '123456',
+          hashedPwd: await encodeService.hashPwd('123456'),
           createdAt: new Date(),
           updatedAt: new Date()
         }
