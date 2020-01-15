@@ -3,8 +3,7 @@ const encodeService = require('../services/encodeService');
 
 const mapCols = data => ({
   // based frontend form (see fronted/componets/SignUp/formArea)
-  firstName: data.firstName || 'v',
-  lastName: data.lastName || data.userName,
+  name: data.username,
   email: data.email,
   password: data.pwd,
   hashedPwd: data.hashedPwd
@@ -17,10 +16,15 @@ const userInsert = async (ctx, next) => {
   const data = ctx.request.body;
   if ('pwd' in data) {
     const newUser = await encodePwd(data);
+    console.log('>>> newUser', newUser);
+
     await userService.insertNewUser(mapCols(newUser));
 
-    ctx.response.status = 200;
-    ctx.body = JSON.stringify(newUser);
+    ctx.response.status = 201;
+    ctx.body = JSON.stringify({ msg: 'Signed up Successfully!' });
+  } else {
+    ctx.response.status = 501;
+    ctx.response.body = { error: 'ERROR: Failed to signed up!'};
   }
 };
 

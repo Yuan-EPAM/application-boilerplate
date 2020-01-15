@@ -5,7 +5,6 @@ const authController = require('../controllers/authController');
 
 const router = new Router();
 
-// router.post('/signup', userController.userInsert);
 router.post('/signup', userController.userInsert);
 router.post('/signin', authController.signInAuth);
 

@@ -1,7 +1,7 @@
 require('dotenv').config();
 const jwt = require('jsonwebtoken');
 
-const loginSchema = {
+const signinSchema = {
   email: {
     notEmpty: true,
     isEmail: {
@@ -18,8 +18,43 @@ const loginSchema = {
 };
 
 const getJWT = email => {
-  const token = jwt.sign({ data: email }, process.env.JWT_SECRET, { expiresIn: 15 });
+  const token = jwt.sign({ data: email }, process.env.JWT_SECRET, { expiresIn: 60 * 15 });
   return token;
 };
 
-module.exports = { loginSchema, getJWT };
+const handleJWTError = (error, decoded) => {
+  if (error) {
+    console.log('JWT Error', error);
+    return {
+      ...error,
+      JWTstatus: 401
+    };
+  } else {
+    return { ...decoded, JWTstatus: 200 };
+  }
+};
+
+const verifyJWT = token => {
+  try {
+    // console.log('>>> verifyJWT token:', token);
+    const result = jwt.verify(token, process.env.JWT_SECRET, handleJWTError);
+    console.log('>>> JWT Verify result:', result);
+    return result
+  } catch (err) {
+    console.log('>>> err: ', err);
+    throw Error('Verify JWT TOKEN ERROR!:');
+  }
+};
+
+// can refactor to functional chain ?
+const authCases = {
+  hasAuthProperty: ctx => 'authorization' in ctx.headers,
+  withBearAuth: ctx => ctx.headers.authorization.startsWith('Bearer')
+  // withToken: ctx => ctx.headers.authorization.includes('token')
+};
+
+const checkHeaderValidity = ctx => {
+  return authCases.hasAuthProperty(ctx) && authCases.withBearAuth(ctx);
+};
+
+module.exports = { signinSchema, getJWT, verifyJWT, checkHeaderValidity };
