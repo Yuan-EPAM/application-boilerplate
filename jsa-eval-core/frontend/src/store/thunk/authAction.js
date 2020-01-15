@@ -1,42 +1,63 @@
-import { authSuccess, authFail, signOut } from '../actions/auth';
+import { authStart, authSuccess, authFail } from '../actions/auth';
+import { signout } from '../actions/signout';
 
-const fetchData = async (url, authData, dispatch) => {
+const fetchData = async (url, authData) => {
   try {
     const response = await fetch(url, {
       method: 'POST',
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json'
-      }
+      },
+      body: JSON.stringify(authData)
     });
+    return response;
   } catch (err) {
-    dispatch(authFail(err.response.data.error));
+    throw Error(`Error POST ${url}: ${err}`);
   }
 };
 
-const auth = (email, pwd, isSignup) => {
+const storeToken = (email, token) => {
+  localStorage.setItem('token', token);
+  localStorage.setItem('email', email);
+};
+
+const auth = (email, pwd, history) => {
   return async dispatch => {
-    const authData = {
+    dispatch(authStart());
+    const signInData = {
       email: email,
-      pwd: pwd,
-      hasToken: true
+      pwd: pwd
     };
-    const baseURL = 'http://localhost:8080';
-    const url = baseURL + (isSignup ? '/signin' : 'signup');
-    const response = await fetchData(url, authData, dispatch);
+    const url = 'http://localhost:8080/signin';
+    const response = await fetchData(url, signInData);
+    const result = await response.json();
+    if (response.status !== 200) {
+      console.log('result', result);
+      history.push('/signin');
+      dispatch(authFail(result));
+    } else {
+      console.log('auth response', result);
+      const { token } = result;
+      const authedEmail = result.email;
+
+      storeToken(authedEmail, token);
+      history.push('/dashboard');
+      dispatch(authSuccess(authedEmail, token, '/dashboard'));
+    }
   };
 };
 
 const authCheckState = () => {
   return dispatch => {
-    const userToken = localStorage.getItem('token');
-    if (!userToken) {
-      signOut();
+    const token = localStorage.getItem('token');
+    if (!token) {
+      signout();
     } else {
-      const userEmail = localStorage.getItem('email');
-      dispatch(authSuccess(userEmail, userToken));
+      const email = localStorage.getItem('email');
+      dispatch(authSuccess(email, token));
     }
   };
 };
 
-export { authCheckState };
+export { auth, authCheckState };

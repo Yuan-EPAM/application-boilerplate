@@ -4,23 +4,17 @@ const authStart = () => ({
   type: actionTypes.AUTH_START
 });
 
-const authSuccess = (email, token) => ({
+const authSuccess = (email, token, redirectPath) => ({
   type: actionTypes.AUTH_SUCCESS,
   email: email,
-  token: token
+  token: token,
+  redirectPath: redirectPath
 });
 
 const authFail = error => ({
   type: actionTypes.AUTH_FAIL,
+  redirectPath: '/',
   error: error
 });
 
-const signOut = () => {
-  localStorage.removeItem('email');
-  localStorage.removeItem('token');
-  return {
-    type: actionTypes.AUTH_SIGNOUT
-  };
-};
-
-export { authStart, authSuccess, authFail, signOut };
+export { authStart, authSuccess, authFail };

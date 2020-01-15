@@ -1,23 +1,28 @@
 import { hot } from 'react-hot-loader/root';
 import React from 'react';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
 
-import SignIn from './components/SignIn';
 import SignUp from './components/SignUp';
-import Dashboard from './components/Dashboard';
+import SignIn from './components/SignIn';
+
+import DashboardContent from './store/containers/DashboardContent';
 
 function App() {
   return (
     <Router>
       <Switch>
         <Route exact path="/">
+          <Redirect to="/signin"/>
+        </Route>
+        <Route path="/signin">
           <SignIn />
         </Route>
-        <Route path='/signup'>
+        <Route path="/signup">
           <SignUp />
         </Route>
-        <Route path='/dashboard'>
-          <Dashboard />
+        <Route path="/dashboard">
+          {/* <Dashboard /> */}
+          <DashboardContent />
         </Route>
       </Switch>
     </Router>

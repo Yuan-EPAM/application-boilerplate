@@ -1,7 +1,8 @@
 import React from 'react';
 import { Container, Card } from '@material-ui/core';
 
-import FormArea from './FormArea';
+// import FormArea from './FormArea';
+import SignUpForm from '../../store/containers/SignUpForm'
 import useStyles from './styles';
 
 const SignUp = () => {
@@ -10,7 +11,7 @@ const SignUp = () => {
   return (
     <Container className={classes.root} maxWidth="sm">
       <Card>
-        <FormArea />
+        <SignUpForm />
       </Card>
     </Container>
   );

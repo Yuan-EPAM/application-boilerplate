@@ -1,8 +1,10 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { Input, InputAdornment } from '@material-ui/core';
-import { AccountCircleOutlined, MailOutline, VisibilityOff } from '@material-ui/icons';
+import { Input } from '@material-ui/core';
 
 import useStyles from './styles';
+
+import IconAdornment from '../IconAdornment';
+import ErrorInfo from '../ErrorInfo';
 
 const InputItem = ({
   itemId,
@@ -10,41 +12,56 @@ const InputItem = ({
   placeholder,
   inputValue,
   handlerSetFormItems,
-  valid,
+  validState,
+  touched,
   checked
 }) => {
   const classes = useStyles();
   const [styleClasses, setStyleClasses] = useState(classes.inputItem);
-
-  const addIcon = (position = 'start', iconComponent) => {
-    return <InputAdornment position={position}>{iconComponent}</InputAdornment>;
-  };
-
-  const iconsMap = {
-    name: addIcon('start', <AccountCircleOutlined />),
-    email: addIcon('start', <MailOutline />),
-    pwd: addIcon('start', <VisibilityOff />)
-  };
-
-  const getIcon = itemId => iconsMap[itemId];
+  const [itemOutFocus, setItemOutFocus] = useState(false);
 
   const warnInvalid = useCallback(() => {
-    checked && !valid ? setStyleClasses(classes.inputItemInvalid) : setStyleClasses(classes.inputItem)
-  }, [checked, valid, classes.inputItem, classes.inputItemInvalid])
+    !validState.isValid
+      ? setStyleClasses(classes.inputItemInvalid)
+      : setStyleClasses(classes.inputItem);
+  }, [validState, classes.inputItem, classes.inputItemInvalid]);
+
+  const handlerSetItemOutFocus = () => {
+    setItemOutFocus(true);
+  };
+
+  const checkValid = event => {
+    event.preventDefault();
+    warnInvalid();
+    handlerSetItemOutFocus();
+  };
+
+  const showErrorMsg = (checked, touched, validState) => {
+    if (itemOutFocus && !validState.isValid) {
+      return <ErrorInfo error={{ error: validState.msg }} />;
+    }
+  };
 
   useEffect(() => {
-    warnInvalid()
-  }, [warnInvalid])
+    if ((checked && !touched) || validState.isValid) {
+      warnInvalid();
+    }
+  }, [touched, checked, warnInvalid, validState.isValid]);
 
   return (
-    <Input
-      type={itemType}
-      className={styleClasses}
-      startAdornment={getIcon(itemId)}
-      placeholder={placeholder}
-      value={inputValue}
-      onChange={event => handlerSetFormItems(event, itemId)}
-    />
+    <div className={classes.inputItemArea}>
+      <Input
+        type={itemType}
+        className={styleClasses}
+        startAdornment={<IconAdornment itemId={itemId} />}
+        placeholder={placeholder}
+        value={inputValue}
+        onChange={event => handlerSetFormItems(event, itemId)}
+        onBlur={event => checkValid(event, itemId)}
+      />
+
+      {showErrorMsg(checked, touched, validState)}
+    </div>
   );
 };
 

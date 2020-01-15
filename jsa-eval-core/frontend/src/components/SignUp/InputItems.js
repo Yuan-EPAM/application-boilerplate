@@ -5,19 +5,26 @@ import InputItem from './InputItem';
 
 const InputItems = ({ formItems, handlerSetFormItems }) =>
   Object.values(formItems.items).map(item => {
-
-    console.log('item:', item.id, item.valid, item.value);
+    // console.log('>>> Sign up item:', { id: item.id, value: item.value, validState: item.validState });
+    console.log('>>> Sign up item:', {
+      id: item.id,
+      value: item.value,
+      isValid: item.validState.isValid,
+      msg: item.validState.msg
+    });
 
     return (
-      <Grid item xs={12} key={item.id}>
+      <Grid item sm={12} key={item.id}>
         <InputItem
           itemId={item.id}
           itemType={item.type}
           placeholder={item.placeholder}
           inputValue={item.value}
           handlerSetFormItems={handlerSetFormItems}
-          valid={item.valid}
+          validState={item.validState}
+          touched={item.touched}
           checked={formItems.valid.checked}
+          validation={item.validation}
         />
       </Grid>
     );
