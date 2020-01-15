@@ -1,17 +1,18 @@
 import React from 'react';
 import { Container, Card } from '@material-ui/core';
 
-import FormArea from './FormArea';
-import InputItems from '../InputItems';
+// import FormArea from './FormArea';
 import useStyles from './styles';
+
+import SignInForm from '../../store/containers/SignInForm'
 
 const SignIn = () => {
   const classes = useStyles();
 
   return (
-    <Container className={classes.root} maxWidth="sm">
+    <Container className={classes.root} maxWidth="md">
       <Card>
-        <FormArea />
+        <SignInForm />
       </Card>
     </Container>
   )

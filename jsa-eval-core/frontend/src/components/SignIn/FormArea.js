@@ -2,35 +2,19 @@ import React, { useState } from 'react';
 import { Link, Button } from '@material-ui/core';
 import { useHistory } from 'react-router-dom';
 
-import InputItems from '../InputItems/';
+import InputItems from './InputItems';
+import ErrorInfo from '../ErrorInfo';
 import useStyles from './styles';
 
-const FormArea = () => {
+import signinFormDataTemplate from './signinFormDataTemplate';
+
+const FormArea = ({ error, onAuth }) => {
   const classes = useStyles();
   const history = useHistory();
 
-  const formData = {
-    items: {
-      email: {
-        id: 'email',
-        type: 'text',
-        value: '',
-        placeholder: 'Email Address'
-      },
-      pwd: {
-        id: 'pwd',
-        type: 'password',
-        placeholder: 'Password',
-        value: ''
-      }
-    }
-  };
-
-  const [formItems, setFormItems] = useState(formData);
+  const [formItems, setFormItems] = useState(signinFormDataTemplate);
 
   const updateItemStateObj = (preState, itemId, newValue) => {
-    console.log('>>> updateItemStateObj', formItems.valid);
-
     return {
       ...preState.items,
       [itemId]: {
@@ -50,25 +34,29 @@ const FormArea = () => {
     }));
   };
 
-  const handlerClick = () => {
-    setFormItems(preState => ({
-      ...preState
-    }));
-
-    console.log('sign up button clicked');
-  };
-
   const handlerSignUpClick = event => {
     event.preventDefault();
     history.push('/signup');
   };
 
+  const handlerSignInClick = () => {
+    setFormItems(preState => ({
+      ...preState
+    }));
+  };
+
+  const handlerOnSubmit = event => {
+    event.preventDefault();
+    const { email, pwd } = formItems.items;
+    onAuth(email.value, pwd.value, history);
+  };
+
   return (
-    <form className={classes.FormArea}>
+    <form className={classes.formArea} onSubmit={handlerOnSubmit}>
       <InputItems formItems={formItems} handlerSetFormItems={handlerSetFormItems} />
 
       <Link className={classes.signupLink} onClick={handlerSignUpClick}>
-        New user? Please sign up
+        Click here to sign up
       </Link>
 
       <Button
@@ -76,10 +64,12 @@ const FormArea = () => {
         className={classes.button}
         variant="contained"
         color="primary"
-        onClick={handlerClick}
+        onClick={handlerSignInClick}
       >
         SIGN IN
       </Button>
+
+      <ErrorInfo error={error} />
     </form>
   );
 };
