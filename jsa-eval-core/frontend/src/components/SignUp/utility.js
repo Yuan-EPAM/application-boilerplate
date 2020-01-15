@@ -56,30 +56,13 @@ const checkItemValidity = (value, validation) => {
     msg: null
   };
   if (validation.required) {
-    // const checkType = {
-    //   name: (value, isValid) => checkName(value, isValid),
-    //   email: (value, isValid) => checkEmail(value, isValid),
-    //   pwd: (value, isValid) => checkPwd(value, isValid)
-    // };
-    // check input is an empty string
-    // itemState = updateState(
-    //   itemState, {
-    //   isValid: typeof value === 'string' && value.trim() !== '' && itemState.isValid
-    // });
-
     itemState = checkEmpty(value, itemState);
     itemState = checkByItemType(validation.type, value, itemState);
-
-    // itemState = updateState(
-    //   itemState,
-    //   checkType[validation.type](value, itemState)
-    // )
-    // isValid = typeof value === 'string' && value.trim() !== '' && isValid;
-    // isValid = checkType[validation.type](value, isValid);
   } else {
     return itemState;
   }
 
+  console.log('>>> itemState', itemState);
   return itemState;
 };
 

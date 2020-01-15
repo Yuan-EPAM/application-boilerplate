@@ -36,8 +36,9 @@ const InputItem = ({
     handlerSetItemOutFocus();
   };
 
-  const showErrorMsg = (checked, touched, validState) => {
+  const showErrorMsg = validState => {
     if (itemOutFocus && !validState.isValid) {
+      console.log('>>> showErrorMsg', validState);
       return <ErrorInfo error={{ error: validState.msg }} />;
     }
   };
@@ -60,7 +61,7 @@ const InputItem = ({
         onBlur={event => checkValid(event, itemId)}
       />
 
-      {showErrorMsg(checked, touched, validState)}
+      {showErrorMsg(validState)}
     </div>
   );
 };
