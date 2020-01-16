@@ -1,7 +1,7 @@
 const authService = require('../services/authService');
 
 const noAuth = (ctx, error) => {
-  ctx.status = 401;
+  ctx.status = 403;
   // ctx.body = JSON.stringify({ error: 'ERROR: Access Permission Denied (Forbidden)!' });
   ctx.body = JSON.stringify(error);
 };

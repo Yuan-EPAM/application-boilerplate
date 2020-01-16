@@ -30,7 +30,7 @@ const notFoundEmail = ctx => {
   const response = {
     error: 'Email NOT FOUND!'
   };
-  ctx.status = 403;
+  ctx.status = 401;
   ctx.body = JSON.stringify(response);
 };
 
@@ -38,7 +38,7 @@ const notMatchPwd = ctx => {
   const response = {
     error: 'Password NOT MATCH!'
   };
-  ctx.status = 403;
+  ctx.status = 401;
   ctx.body = JSON.stringify(response);
 };
 
