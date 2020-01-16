@@ -29,11 +29,10 @@ const auth = (email, pwd, history) => {
       email: email,
       pwd: pwd
     };
-    const url = 'http://localhost:8080/signin';
+    const url = process.env.REACT_APP_SERVER + process.env.REACT_APP_SIGNIN
     const response = await fetchData(url, signInData);
     const result = await response.json();
     if (response.status !== 200) {
-      console.log('result', result);
       history.push('/signin');
       dispatch(authFail(result));
     } else {

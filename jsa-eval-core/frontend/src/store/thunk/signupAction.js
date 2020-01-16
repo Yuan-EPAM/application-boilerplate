@@ -25,7 +25,7 @@ const signup = (name, email, pwd, history) => {
       email: email,
       pwd: pwd
     }
-    const url = 'http://localhost:8080/signup';
+    const url = process.env.REACT_APP_SERVER + process.env.REACT_APP_SIGNUP
     const response = await postData(url, signupData);
     const result = await response.json();
     if (response.status === 201) {

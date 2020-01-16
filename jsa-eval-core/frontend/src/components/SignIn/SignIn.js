@@ -1,7 +1,6 @@
 import React from 'react';
 import { Container, Card } from '@material-ui/core';
 
-// import FormArea from './FormArea';
 import useStyles from './styles';
 
 import SignInForm from '../../store/containers/SignInForm'

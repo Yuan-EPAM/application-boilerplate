@@ -39,12 +39,6 @@ const FormArea = ({ error, onAuth }) => {
     history.push('/signup');
   };
 
-  const handlerSignInClick = () => {
-    setFormItems(preState => ({
-      ...preState
-    }));
-  };
-
   const handlerOnSubmit = event => {
     event.preventDefault();
     const { email, pwd } = formItems.items;
@@ -64,7 +58,6 @@ const FormArea = ({ error, onAuth }) => {
         className={classes.button}
         variant="contained"
         color="primary"
-        onClick={handlerSignInClick}
       >
         SIGN IN
       </Button>

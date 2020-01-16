@@ -6,8 +6,6 @@ const ErrorInfo = ({ error }) => {
   const classes = useStyles();
 
   const handlerErrorInfo = error => {
-    console.log('>>>> error', error);
-
     return error ? error.error : '';
   };
 

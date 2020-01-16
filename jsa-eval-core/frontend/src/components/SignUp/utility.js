@@ -6,7 +6,6 @@ const getStateResult = (value, isValid, rules) => {
     msg: rules.msg };
 };
 const checkName = (value, isValid) => {
-  // let isValid = valid;
   const rules = {
     pattern: /^([a-zA-Z0-9-_]){4,32}$/,
     msg: 'Name should have at least 4 characters'
@@ -62,21 +61,17 @@ const checkItemValidity = (value, validation) => {
     return itemState;
   }
 
-  console.log('>>> itemState', itemState);
   return itemState;
 };
 
 const checkFormValidity = items => {
   let isFormValid = false;
 
-  console.log('checkForValidity', items);
-
   const inValidItems = Object.values(items)
     .filter(item => !(item.validation.required && item.touched && item.validState.isValid))
     .map(({ id, validation, validState, touched }) => ({ id, validation, validState, touched }));
 
   isFormValid = inValidItems.length < 1;
-
   return { isFormValid, inValidItems };
 };
 

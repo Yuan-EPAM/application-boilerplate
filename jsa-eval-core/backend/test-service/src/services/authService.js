@@ -24,7 +24,6 @@ const getJWT = email => {
 
 const handleJWTError = (error, decoded) => {
   if (error) {
-    console.log('JWT Error', error);
     return {
       ...error,
       JWTstatus: 401
@@ -36,12 +35,9 @@ const handleJWTError = (error, decoded) => {
 
 const verifyJWT = token => {
   try {
-    // console.log('>>> verifyJWT token:', token);
     const result = jwt.verify(token, process.env.JWT_SECRET, handleJWTError);
-    console.log('>>> JWT Verify result:', result);
     return result
   } catch (err) {
-    console.log('>>> err: ', err);
     throw Error('Verify JWT TOKEN ERROR!:');
   }
 };

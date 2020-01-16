@@ -33,7 +33,6 @@ const mapStateToProps = ({ dashboard }) => {
 };
 
 const mapDispathToProps = dispatch => {
-  console.log('>>>> DashboardContent mapProps', dispatch);
   return {
     displayContent: token => dispatch(displayDashboard(token))
   };

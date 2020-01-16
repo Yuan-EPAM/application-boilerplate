@@ -5,7 +5,6 @@ const useStyles = makeStyles(theme => ({
     border: '3px solid yellow',
 
     display: 'flex',
-    // flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
     height: 600
@@ -22,7 +21,6 @@ const useStyles = makeStyles(theme => ({
   inputItemInvalid: {
     backgroundColor: '#e17055',
     margin: 10
-    // opacity: "60%"
   },
   signupLink: {
     marginLeft: 10,

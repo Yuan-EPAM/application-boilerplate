@@ -38,7 +38,6 @@ const InputItem = ({
 
   const showErrorMsg = validState => {
     if (itemOutFocus && !validState.isValid) {
-      console.log('>>> showErrorMsg', validState);
       return <ErrorInfo error={{ error: validState.msg }} />;
     }
   };

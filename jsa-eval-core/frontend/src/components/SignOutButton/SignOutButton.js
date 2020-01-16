@@ -7,7 +7,6 @@ const SignOutButton = ({ onSignout }) => {
 
   const handlerSignOutButton = event => {
     event.preventDefault();
-    console.log('>>> Sign out clicked!');
     onSignout();
     history.push('/signin');
   };

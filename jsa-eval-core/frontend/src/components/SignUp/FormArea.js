@@ -55,6 +55,7 @@ const FormArea = ({ signupMsg, error, onSignup, onCleanMsg }) => {
 
   const handlerSignUpClick = event => {
     event.preventDefault();
+    console.log('env variable:', process.env);
     history.push('/signin');
   };
 
@@ -72,7 +73,7 @@ const FormArea = ({ signupMsg, error, onSignup, onCleanMsg }) => {
       const { name, email, pwd } = formItems.items;
       onSignup(name.value, email.value, pwd.value, history);
     } else {
-      console.log('!!! form inValid', formItems.valid);
+      alert('Input Invalid!')
     }
   };
 

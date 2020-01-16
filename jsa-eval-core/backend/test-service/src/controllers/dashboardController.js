@@ -2,7 +2,6 @@ const authService = require('../services/authService');
 
 const noAuth = (ctx, error) => {
   ctx.status = 403;
-  // ctx.body = JSON.stringify({ error: 'ERROR: Access Permission Denied (Forbidden)!' });
   ctx.body = JSON.stringify(error);
 };
 
@@ -12,13 +11,10 @@ const authGranted = ctx => {
 };
 
 const extractHeaderToken = ctx => {
-  console.log('header', ctx.headers);
   return ctx.headers.authorization.split(' ')[1];
 };
 
 const checkAuth = async ctx => {
-  console.log('>>>> ctx auth:', ctx.headers.authorization);
-
   const isHeaderValid = authService.checkHeaderValidity(ctx);
   if (!isHeaderValid) {
     // ctx.throw(403, 'No token');
