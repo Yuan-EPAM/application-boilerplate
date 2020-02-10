@@ -9,7 +9,7 @@ const Dashboard = () => {
     <section>
       <div>
         <p>Welcome to dashboard area~</p>
-        <img src={dashboardDemo} alt="funny cat gif" />
+        {/* <img src={dashboardDemo} alt="funny cat gif" /> */}
       </div>
 
       <SignOutButton />

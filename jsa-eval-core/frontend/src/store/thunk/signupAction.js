@@ -14,7 +14,6 @@ const postData = async (url, data) => {
   } catch (err) {
     throw Error(`Error POST ${url}: ${err}`);
   }
-
 }
 
 const signup = (name, email, pwd, history) => {
